@@ -32,32 +32,6 @@ var inMemoryStorage = new builder.MemoryBotStorage();
 var bot = new builder.UniversalBot(connector).set('storage', inMemoryStorage); // Register in memory storage;
 
 var recognizer = new builder.LuisRecognizer(LuisModelUrl);
-var intents = new builder.IntentDialog({ recognizers: [recognizer] })
-.matches('none', (session) => {
-    session.send('You reached none intent, you said \'%s\'.', session.message.text);
-    
-})
-.matches('smalltalk', (session) => {
- // Post user's question to QnA smalltalk kb
-      qnaClient.post({ question: session.message.text }, function (err, res) {
-            if (err) {
-                console.error('Error from callback:', err);
-                session.send('Oops - something went wrong.',err);
-                return;
-            }
-
-            if (res) {
-                // Send reply from QnA back to user
-                session.send(res);
-            } else {
-                // Put whatever default message/attachments you want here
-                session.send('Hmm, I didn\'t quite understand you there. Care to rephrase?')
-            }
-        });
-});
-
-bot.dialog('/', intents);
-
 
 bot.dialog('emotiondialog',
     (session, args) => {
@@ -79,7 +53,32 @@ bot.dialog('emotiondialog',
     }
 ).triggerAction({
     matches: 'emotion'
-})
+});
+
+
+bot.dialog('smalltalkdialog',
+    (session, args) => {
+        // Post user's question to QnA smalltalk kb
+      qnaClient.post({ question: session.message.text }, function (err, res) {
+            if (err) {
+                console.error('Error from callback:', err);
+                session.send('Oops - something went wrong.',err);
+                return;
+            }
+
+            if (res) {
+                // Send reply from QnA back to user
+                session.send(res);
+            } else {
+                // Put whatever default message/attachments you want here
+                session.send('Hmm, I didn\'t quite understand you there. Care to rephrase?')
+            }
+        });
+        session.endDialog();
+    }
+).triggerAction({
+    matches: 'smalltalk'
+});
 
 
 // Enable Conversation Data persistence
