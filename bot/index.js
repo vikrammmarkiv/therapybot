@@ -41,14 +41,13 @@ bot.dialog('emotion', function (session, args) {
 
         // Turn on a specific device if a device entity is detected by LUIS
         if (sad) {
-            session.send('Thanks for sharing, but why do you think you feel this way?');
+            session.send('Thanks for sharing, but why do you feel this way?');
             // Put your code here for calling the IoT web service that turns on a device
         } else if(happy){
             // Assuming turning on lights is the default
-            session.send('ok, nice to know that you are feeling good. Would love to know why!');
+            session.send('ok, that is lovely. Please do share why!');
             // Put your code here for calling the IoT web service that turns on a device
-        }
-        session.send('Ok, turning on the lights');
+        
     session.endDialog();
 }).triggerAction({
     matches: 'emotion'
