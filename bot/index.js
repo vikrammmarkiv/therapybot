@@ -37,7 +37,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 })
 .matches('smalltalk', (session) => {
     // Post user's question to QnA smalltalk kb
-     session.send('You reached emotion intent, you said \'%s\'.', session.message.text);
+     session.send('You reached smalltalk intent, you said \'%s\'.', session.message.text);
 });
 
 bot.dialog('/', intents);
