@@ -40,7 +40,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
       qnaClient.post({ question: session.message.text }, function (err, res) {
             if (err) {
                 console.error('Error from callback:', err);
-                session.send('Oops - something went wrong.');
+                session.send('Oops - something went wrong.',err);
                 return;
             }
 
