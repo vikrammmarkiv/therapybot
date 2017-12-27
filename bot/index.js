@@ -63,7 +63,7 @@ bot.dialog('saddialog', [
     },
     function (session, results) {
    builder.Prompts.text(session, "Well it will get better. Have faith my dear friend.");     
-       session.endDialog();
+       
     }
 ]);
 
