@@ -31,10 +31,7 @@ var inMemoryStorage = new builder.MemoryBotStorage();
 
 var bot = new builder.UniversalBot(connector).set('storage', inMemoryStorage); // Register in memory storage;
 
-var recognizer = new builder.LuisRecognizer(LuisModelUrl).onEnabled((context, callback) => {
-    var enabled = context.dialogStack().length === 0;
-    callback(null, enabled);
-});
+var recognizer = new builder.LuisRecognizer(LuisModelUrl);
 bot.recognizer(recognizer);
 
 bot.dialog('emotion', function (session, args) {
@@ -61,9 +58,6 @@ bot.dialog('saddialog', [
     function (session) {
         builder.Prompts.text(session, "Oh dear, but why do you feel so?");
     },
-     function (session, results) {
-      builder.Prompts.text(session, "thanks for sharing, what else do you feel about it?");
-    },
     function (session, results) {
    builder.Prompts.text(session, "Well it will get better. Have faith my dear friend.");     
        session.endDialog();
@@ -73,9 +67,6 @@ bot.dialog('saddialog', [
 bot.dialog('happydialog', [
     function (session) {
         builder.Prompts.text(session, "That is great to know. Please do share why!");
-    },
-     function (session, results) {
-      builder.Prompts.text(session, "and...");
     },
     function (session, results) {
    builder.Prompts.text(session, "Thanks for sharing this with me. Seeing you in good mood just makes my day.");     
