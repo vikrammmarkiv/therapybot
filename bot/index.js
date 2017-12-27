@@ -1,6 +1,12 @@
 var builder = require('botbuilder');
 var QnAClient = require('../lib/client');
 
+var luisAppId = process.env.LuisAppId;
+var luisAPIKey = process.env.LuisAPIKey;
+var luisAPIHostName = process.env.LuisAPIHostName || 'westus.api.cognitive.microsoft.com';
+
+const LuisModelUrl = 'https://' + luisAPIHostName + '/luis/v2.0/apps/' + luisAppId + '&subscription-key=' + luisAPIKey;
+
 //=========================================================
 // Bot Setup
 //=========================================================
@@ -22,9 +28,16 @@ var qnaClient = new QnAClient({
 // For samples and documentation, see: https://github.com/Microsoft/BotBuilder-Azure
 var inMemoryStorage = new builder.MemoryBotStorage();
 
-var bot = new builder.UniversalBot(connector, '/').set('storage', inMemoryStorage); // Register in memory storage;
+var bot = new builder.UniversalBot(connector, function (session) {
+    session.send('Sorry, I did not understand \'%s\'. Type \'help\' if you need assistance.', session.message.text);
+});
 
-bot.dialog('/', [
+// You can provide your own model by specifing the 'LUIS_MODEL_URL' environment variable
+// This Url can be obtained by uploading or creating your model from the LUIS portal: https://www.luis.ai/
+var recognizer = new builder.LuisRecognizer(process.env.LUIS_MODEL_URL);
+bot.recognizer(recognizer);
+
+bot.dialog('smalltalk', [
     (session, args) => {
         // Post user's question to QnA smalltalk kb
         qnaClient.post({ question: session.message.text }, function (err, res) {
@@ -44,6 +57,14 @@ bot.dialog('/', [
         });
     }
 ]);
+
+bot.dialog('emotion', [
+    (session, args) => {
+        session.send('You reached emotion intent, you said \'%s\'.', session.message.text);
+            }
+]);
+
+
 
 // Enable Conversation Data persistence
 bot.set('persistConversationData', true);
