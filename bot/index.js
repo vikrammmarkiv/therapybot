@@ -47,7 +47,7 @@ bot.dialog('emotion', function (session, args) {
             // Assuming turning on lights is the default
             session.send('ok, that is lovely. Please do share why!');
             // Put your code here for calling the IoT web service that turns on a device
-        
+        }
     session.endDialog();
 }).triggerAction({
     matches: 'emotion'
