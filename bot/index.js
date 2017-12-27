@@ -28,19 +28,16 @@ var qnaClient = new QnAClient({
 // For samples and documentation, see: https://github.com/Microsoft/BotBuilder-Azure
 var inMemoryStorage = new builder.MemoryBotStorage();
 
-var bot = new builder.UniversalBot(connector, function (session) {
-    session.send('Sorry, I did not understand \'%s\'. Type \'help\' if you need assistance.', session.message.text);
-});
+var bot = new builder.UniversalBot(connector, '/').set('storage', inMemoryStorage); // Register in memory storage;
 
-// You can provide your own model by specifing the 'LUIS_MODEL_URL' environment variable
-// This Url can be obtained by uploading or creating your model from the LUIS portal: https://www.luis.ai/
-var recognizer = new builder.LuisRecognizer(process.env.LUIS_MODEL_URL);
-bot.recognizer(recognizer);
-
-bot.dialog('smalltalk', [
-    (session, args) => {
-        // Post user's question to QnA smalltalk kb
-        qnaClient.post({ question: session.message.text }, function (err, res) {
+var recognizer = new builder.LuisRecognizer(LuisModelUrl);
+var intents = new builder.IntentDialog({ recognizers: [recognizer] })
+.matches('emotion', (session) => {
+    session.send('You reached emotion intent, you said \'%s\'.', session.message.text);
+})
+.matches('smalltalk', (session) => {
+    // Post user's question to QnA smalltalk kb
+     qnaClient.post({ question: session.message.text }, function (err, res) {
             if (err) {
                 console.error('Error from callback:', err);
                 session.send('Oops - something went wrong.');
@@ -55,15 +52,9 @@ bot.dialog('smalltalk', [
                 session.send('Hmm, I didn\'t quite understand you there. Care to rephrase?')
             }
         });
-    }
-]);
+});
 
-bot.dialog('emotion', [
-    (session, args) => {
-        session.send('You reached emotion intent, you said \'%s\'.', session.message.text);
-            }
-]);
-
+bot.dialog('/', intents);
 
 
 // Enable Conversation Data persistence
