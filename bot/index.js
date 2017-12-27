@@ -5,7 +5,7 @@ var luisAppId = process.env.LuisAppId;
 var luisAPIKey = process.env.LuisAPIKey;
 var luisAPIHostName = process.env.LuisAPIHostName || 'westus.api.cognitive.microsoft.com';
 
-const LuisModelUrl = 'https://' + luisAPIHostName + '/luis/v2.0/apps/' + luisAppId + '&subscription-key=' + luisAPIKey;
+const LuisModelUrl = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/b4b59f17-32f0-4405-9af7-794802b1d241?subscription-key=78fa3fd125c8480b9bac0c399bac923d';
 
 //=========================================================
 // Bot Setup
@@ -28,7 +28,7 @@ var qnaClient = new QnAClient({
 // For samples and documentation, see: https://github.com/Microsoft/BotBuilder-Azure
 var inMemoryStorage = new builder.MemoryBotStorage();
 
-var bot = new builder.UniversalBot(connector, '/').set('storage', inMemoryStorage); // Register in memory storage;
+var bot = new builder.UniversalBot(connector).set('storage', inMemoryStorage); // Register in memory storage;
 
 var recognizer = new builder.LuisRecognizer(LuisModelUrl);
 var intents = new builder.IntentDialog({ recognizers: [recognizer] })
@@ -37,21 +37,7 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 })
 .matches('smalltalk', (session) => {
     // Post user's question to QnA smalltalk kb
-     qnaClient.post({ question: session.message.text }, function (err, res) {
-            if (err) {
-                console.error('Error from callback:', err);
-                session.send('Oops - something went wrong.');
-                return;
-            }
-
-            if (res) {
-                // Send reply from QnA back to user
-                session.send(res);
-            } else {
-                // Put whatever default message/attachments you want here
-                session.send('Hmm, I didn\'t quite understand you there. Care to rephrase?')
-            }
-        });
+     session.send('You reached emotion intent, you said \'%s\'.', session.message.text);
 });
 
 bot.dialog('/', intents);
