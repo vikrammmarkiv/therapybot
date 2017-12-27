@@ -16,11 +16,7 @@ var connector = new builder.ChatConnector({
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
 
-var qnaClient = new QnAClient({
-    knowledgeBaseId: process.env.KB_ID,
-    subscriptionKey: process.env.QNA_KEY
-    // Optional field: Score threshold
-});
+
 
 // Bot Storage: Here we register the state storage for your bot.
 // Default store: volatile in-memory store - Only for prototyping!
@@ -36,6 +32,11 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
     session.send('You reached emotion intent, you said \'%s\'.', session.message.text);
 })
 .matches('smalltalk', (session) => {
+    var qnaClient = new QnAClient({
+    knowledgeBaseId: process.env.KB_ID,
+    subscriptionKey: process.env.QNA_KEY
+    // Optional field: Score threshold
+});
     // Post user's question to QnA smalltalk kb
       qnaClient.post({ question: session.message.text }, function (err, res) {
             if (err) {
