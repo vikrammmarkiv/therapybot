@@ -49,7 +49,7 @@ bot.dialog('emotion', function (session, args) {
              session.beginDialog('happydialog');
             // Put your code here for calling the IoT web service that turns on a device
         }
-    session.endDialog();
+    
 }).triggerAction({
     matches: 'emotion'
 });
@@ -63,7 +63,7 @@ bot.dialog('saddialog', [
     },
     function (session, results) {
    builder.Prompts.text(session, "Well it will get better. Have faith my dear friend.");     
-       
+       session.endDialog();
     }
 ]);
 
