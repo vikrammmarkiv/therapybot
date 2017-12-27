@@ -16,6 +16,11 @@ var connector = new builder.ChatConnector({
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
 
+var qnaClient = new QnAClient({
+    knowledgeBaseId: process.env.KB_ID,
+    subscriptionKey: process.env.QNA_KEY
+    // Optional field: Score threshold
+});
 
 
 // Bot Storage: Here we register the state storage for your bot.
@@ -32,16 +37,18 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
     session.send('You reached emotion intent, you said \'%s\'.', session.message.text);
 })
 .matches('smalltalk', (session) => {
-    var qnaClient = new QnAClient({
-    knowledgeBaseId: process.env.KB_ID,
-    subscriptionKey: process.env.QNA_KEY
-    // Optional field: Score threshold
+  session.replaceDialog('/smalltalk');
 });
-    // Post user's question to QnA smalltalk kb
-      qnaClient.post({ question: session.message.text }, function (err, res) {
+
+bot.dialog('/', intents);
+
+bot.dialog('/smalltalk', [
+    (session, args) => {
+        // Post user's question to QnA smalltalk kb
+        qnaClient.post({ question: session.message.text }, function (err, res) {
             if (err) {
                 console.error('Error from callback:', err);
-                session.send('Oops - something went wrong.',err);
+                session.send('Oops - something went wrong.');
                 return;
             }
 
@@ -53,10 +60,8 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
                 session.send('Hmm, I didn\'t quite understand you there. Care to rephrase?')
             }
         });
-});
-
-bot.dialog('/', intents);
-
+    }
+]);
 
 // Enable Conversation Data persistence
 bot.set('persistConversationData', true);
