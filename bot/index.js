@@ -74,6 +74,7 @@ bot.dialog('emotiondialog',
             session.send('ok, nice to know that you are feeling good. Would love to know why!');
             // Put your code here for calling the IoT web service that turns on a device
         }
+        session.send('Ok, turning on the lights');
         session.endDialog();
     }
 ).triggerAction({
