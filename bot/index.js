@@ -41,17 +41,44 @@ bot.dialog('emotion', function (session, args) {
 
         // Turn on a specific device if a device entity is detected by LUIS
         if (sad) {
-            session.send('Thanks for sharing, but why do you feel this way?');
+           session.beginDialog('saddialog');
+            
             // Put your code here for calling the IoT web service that turns on a device
         } else if(happy){
             // Assuming turning on lights is the default
-            session.send('ok, that is lovely. Please do share why!');
+             session.beginDialog('happydialog');
             // Put your code here for calling the IoT web service that turns on a device
         }
     session.endDialog();
 }).triggerAction({
     matches: 'emotion'
 });
+
+bot.dialog('saddialog', [
+    function (session) {
+        builder.Prompts.text(session, "Oh dear, but why do you feel so?");
+    },
+     function (session, results) {
+      builder.Prompts.text(session, "thanks for sharing, what else do you feel about it?");
+    },
+    function (session, results) {
+   builder.Prompts.text(session, "Well it will get better. Have faith my dear friend.");     
+       session.endDialog();
+    }
+]);
+
+bot.dialog('happydialog', [
+    function (session) {
+        builder.Prompts.text(session, "That is great to know. Please do share why!");
+    },
+     function (session, results) {
+      builder.Prompts.text(session, "and...");
+    },
+    function (session, results) {
+   builder.Prompts.text(session, "Thanks for sharing this with me. Seeing you in good mood just makes my day.");     
+       session.endDialog();
+    }
+]);
 
 bot.dialog('smalltalkdialog',
     (session, args) => {
