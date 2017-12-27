@@ -104,10 +104,6 @@ bot.dialog('smalltalkdialog',
     matches: 'smalltalk'
 });
 
-
-// Enable Conversation Data persistence
-bot.set('persistConversationData', true);
-
 // Send welcome when conversation with bot is started, by initiating the root dialog
 bot.on('conversationUpdate', function (message) {
     if (message.membersAdded) {
