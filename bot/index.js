@@ -32,7 +32,7 @@ var inMemoryStorage = new builder.MemoryBotStorage();
 var bot = new builder.UniversalBot(connector).set('storage', inMemoryStorage); // Register in memory storage;
 
 var recognizer = new builder.LuisRecognizer(LuisModelUrl);
-
+bot.recognizer(recognizer);
 
 bot.dialog('emotion', function (session, args) {
     var intent = args.intent;
