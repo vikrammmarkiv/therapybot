@@ -33,9 +33,9 @@ var bot = new builder.UniversalBot(connector).set('storage', inMemoryStorage); /
 
 var recognizer = new builder.LuisRecognizer(LuisModelUrl);
 
-bot.dialog('emotiondialog',
-    (session, args) => {
-        var intent = args.intent;
+
+bot.dialog('emotion', function (session, args) {
+    var intent = args.intent;
         var sad = builder.EntityRecognizer.findEntity(intent.entities, 'sad');
         var happy = builder.EntityRecognizer.findEntity(intent.entities, 'happy');
 
@@ -49,12 +49,10 @@ bot.dialog('emotiondialog',
             // Put your code here for calling the IoT web service that turns on a device
         }
         session.send('Ok, turning on the lights');
-        session.endDialog();
-    }
-).triggerAction({
+    session.endDialog();
+}).triggerAction({
     matches: 'emotion'
 });
-
 
 bot.dialog('smalltalkdialog',
     (session, args) => {
