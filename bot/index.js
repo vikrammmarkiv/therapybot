@@ -55,7 +55,9 @@ bot.on('conversationUpdate', function (message) {
             if (identity.id === message.address.bot.id) {
                 // bot.beginDialog(message.address, '/');
                 var msg = new builder.Message().address(message.address);
-                msg.text('Hello, how may I help you?');
+                var botreplylist = ["Hello, how are you?","Hey, how are you feeling today?","Hi there, what would you like to share with me?"];
+                botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                msg.text(botreply);
                 msg.textLocale('en-US');
                 bot.send(msg);
             }
