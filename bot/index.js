@@ -41,12 +41,12 @@ bot.dialog('emotion', function (session, args) {
 
         // Turn on a specific device if a device entity is detected by LUIS
         if (sad) {
-           session.beginDialog('saddialog');
+           session.replaceDialog('saddialog');
             
             // Put your code here for calling the IoT web service that turns on a device
         } else if(happy){
             // Assuming turning on lights is the default
-             session.beginDialog('happydialog');
+             session.replaceDialog('happydialog');
             // Put your code here for calling the IoT web service that turns on a device
         }
     
