@@ -37,7 +37,21 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 })
 .matches('smalltalk', (session) => {
     // Post user's question to QnA smalltalk kb
-     session.send('You reached smalltalk intent, you said \'%s\'.', session.message.text);
+      qnaClient.post({ question: session.message.text }, function (err, res) {
+            if (err) {
+                console.error('Error from callback:', err);
+                session.send('Oops - something went wrong.');
+                return;
+            }
+
+            if (res) {
+                // Send reply from QnA back to user
+                session.send(res);
+            } else {
+                // Put whatever default message/attachments you want here
+                session.send('Hmm, I didn\'t quite understand you there. Care to rephrase?')
+            }
+        });
 });
 
 bot.dialog('/', intents);
