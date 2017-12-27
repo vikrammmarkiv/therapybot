@@ -33,8 +33,8 @@ var bot = new builder.UniversalBot(connector).set('storage', inMemoryStorage); /
 
 var recognizer = new builder.LuisRecognizer(LuisModelUrl);
 var intents = new builder.IntentDialog({ recognizers: [recognizer] })
-.matches('emotion', (session) => {
-    session.send('You reached emotion intent, you said \'%s\'.', session.message.text);
+.matches('none', (session) => {
+    session.send('You reached none intent, you said \'%s\'.', session.message.text);
     
 })
 .matches('smalltalk', (session) => {
