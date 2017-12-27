@@ -35,6 +35,7 @@ var recognizer = new builder.LuisRecognizer(LuisModelUrl);
 var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 .matches('emotion', (session) => {
     session.send('You reached emotion intent, you said \'%s\'.', session.message.text);
+    
 })
 .matches('smalltalk', (session) => {
  // Post user's question to QnA smalltalk kb
@@ -56,6 +57,28 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
 });
 
 bot.dialog('/', intents);
+
+
+bot.dialog('emotiondialog',
+    (session, args) => {
+        var intent = args.intent;
+        var sad = builder.EntityRecognizer.findEntity(intent.entities, 'sad');
+        var happy = builder.EntityRecognizer.findEntity(intent.entities, 'happy');
+
+        // Turn on a specific device if a device entity is detected by LUIS
+        if (sad) {
+            session.send('Thanks for sharing, but why do you think you feel this way?');
+            // Put your code here for calling the IoT web service that turns on a device
+        } else if(happy){
+            // Assuming turning on lights is the default
+            session.send('ok, nice to know that you are feeling good. Would love to know why!');
+            // Put your code here for calling the IoT web service that turns on a device
+        }
+        session.endDialog();
+    }
+).triggerAction({
+    matches: 'emotion'
+})
 
 
 // Enable Conversation Data persistence
