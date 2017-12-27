@@ -37,18 +37,11 @@ var intents = new builder.IntentDialog({ recognizers: [recognizer] })
     session.send('You reached emotion intent, you said \'%s\'.', session.message.text);
 })
 .matches('smalltalk', (session) => {
-  session.replaceDialog('/smalltalk');
-});
-
-bot.dialog('/', intents);
-
-bot.dialog('/smalltalk', [
-    (session, args) => {
-        // Post user's question to QnA smalltalk kb
-        qnaClient.post({ question: session.message.text }, function (err, res) {
+ // Post user's question to QnA smalltalk kb
+      qnaClient.post({ question: session.message.text }, function (err, res) {
             if (err) {
                 console.error('Error from callback:', err);
-                session.send('Oops - something went wrong.');
+                session.send('Oops - something went wrong.',err);
                 return;
             }
 
@@ -60,8 +53,10 @@ bot.dialog('/smalltalk', [
                 session.send('Hmm, I didn\'t quite understand you there. Care to rephrase?')
             }
         });
-    }
-]);
+});
+
+bot.dialog('/', intents);
+
 
 // Enable Conversation Data persistence
 bot.set('persistConversationData', true);
