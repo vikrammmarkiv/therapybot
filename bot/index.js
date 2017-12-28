@@ -66,6 +66,9 @@ bot.dialog('saddialog', [
     },
     function (session, results) {
                  session.send("Thanks for sharing this with me");   
+                  builder.Prompts.text(session, "Would you like to tell me more about it?");
+    },
+     function (session, results) {
                  var botreplylist = ["Dont worry, it will get better","Have faith, you can deal with it"," Keep smiling and one day life will get tired of upsetting you"];
                  botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
                  session.send(botreply);
@@ -75,13 +78,23 @@ bot.dialog('saddialog', [
 
 bot.dialog('happydialog', [
     function (session) {
-        builder.Prompts.text(session, "That is great to know. Please do share why!");
+                
+                 var botreplylist = ["I am glad to hear that. What do you think could be the reason for this good mood?","That makes me feel good too, now tell me what all nice things are on your mind?","ok, so you're in good mood. Why?","Bravo, tell me the best thing on your mind."];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 builder.Prompts.text(session, botreply);
     },
     function (session, results) {
-   builder.Prompts.text(session, "Thanks for sharing this with me. Seeing you in good mood just makes my day.");     
-       session.endDialog();
+                 session.send("Thanks for sharing this with me");   
+                  builder.Prompts.text(session, "Would you like to tell me more about it?");
+    },
+     function (session, results) {
+                 var botreplylist = ["ok, I want to let you know that your smile just brightens up my day","Well let us be grateful to people who make us happy, they are the charming gardeners who make our souls blossom.","Well my friend I think it's important to find the little things in everyday life that make you happy and you're doing a great job at that."]
+                                     botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send(botreply);
+     session.endDialog();
     }
 ]);
+
 
 bot.dialog('smalltalkdialog',
     (session, args) => {
