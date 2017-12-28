@@ -59,11 +59,17 @@ bot.dialog('emotion', function (session, args) {
 
 bot.dialog('saddialog', [
     function (session) {
-        builder.Prompts.text(session, "Oh dear, but why do you feel so?");
+                
+                 var botreplylist = ["Oh dear, but why do you feel so?","what might be the reason for it?","ok, tell me about it","I cant see you in bad mood, please tell me why you feel so?"];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 builder.Prompts.text(session, botreply);
     },
     function (session, results) {
-   builder.Prompts.text(session, "Well it will get better. Have faith my dear friend.");     
-       session.endDialog();
+                 session.send("Thanks for sharing this with me");   
+                 var botreplylist = ["Dont worry, it will get better","Have faith, you can deal with it"," Keep smiling and one day life will get tired of upsetting you"];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send(botreply);
+     session.endDialog();
     }
 ]);
 
