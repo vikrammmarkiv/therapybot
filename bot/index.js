@@ -66,7 +66,7 @@ bot.dialog('saddialog', [
     },
     function (session, results) {
                  session.send("Thanks for sharing this with me");   
-                  builder.Prompts.text(session, "Would you like to tell me more about it?");
+                  builder.Prompts.text(session, "Tell me more about it.");
     },
      function (session, results) {
                  var botreplylist = ["Dont worry, it will get better","Have faith, you can deal with it"," Keep smiling and one day life will get tired of upsetting you"];
@@ -85,7 +85,7 @@ bot.dialog('happydialog', [
     },
     function (session, results) {
                  session.send("Thanks for sharing this with me");   
-                  builder.Prompts.text(session, "Would you like to tell me more about it?");
+                  builder.Prompts.text(session, "Tell me more about it.");
     },
      function (session, results) {
                  var botreplylist = ["ok, I want to let you know that your smile just brightens up my day","Well let us be grateful to people who make us happy, they are the charming gardeners who make our souls blossom.","Well my friend I think it's important to find the little things in everyday life that make you happy and you're doing a great job at that."]
