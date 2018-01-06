@@ -5,7 +5,7 @@ var luisAppId = process.env.LuisAppId;
 var luisAPIKey = process.env.LuisAPIKey;
 var luisAPIHostName = process.env.LuisAPIHostName || 'westus.api.cognitive.microsoft.com';
 
-const LuisModelUrl = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/b4b59f17-32f0-4405-9af7-794802b1d241?subscription-key=78fa3fd125c8480b9bac0c399bac923d';
+const LuisModelUrl = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/8082df28-effe-4356-9454-d4e56dc5f7e3?subscription-key=78fa3fd125c8480b9bac0c399bac923d';
 
 //=========================================================
 // Bot Setup
@@ -39,68 +39,203 @@ bot.recognizer(recognizer);
 
 bot.dialog('sharing_feeling', function (session, args) {
     var intent = args.intent;
-        var pfeel = builder.EntityRecognizer.findEntity(intent.entities, 'pleasant_feeling');
-        var upfeel = builder.EntityRecognizer.findEntity(intent.entities, 'unpleasant_feeling');
-        var action = builder.EntityRecognizer.findEntity(intent.entities, 'action_verb');
-        var relation = builder.EntityRecognizer.findEntity(intent.entities, 'relation');
-        var name = builder.EntityRecognizer.findEntity(intent.entities, 'person_name');
-        var negation = builder.EntityRecognizer.findEntity(intent.entities, 'negation');
-
-        // Turn on a specific device if a device entity is detected by LUIS
-        if (pfeel) {
-        foreach (var x in (pfeel.entity.Resolution.Values))
-        {if(x=='alive'){
-          var botreplylist = ["I am glad to hear that. What do you think could be the reason for this good mood?","That makes me feel good too, now tell me what all nice things are on your mind?","ok, so you're in good mood. Why?","Bravo, tell me the best thing on your mind."];
+        var pfeel = builder.EntityRecognizer.findAllEntities(intent.entities, 'pleasant_feeling');
+        var upfeel = builder.EntityRecognizer.findAllEntities(intent.entities, 'unpleasant_feeling');
+        var action = builder.EntityRecognizer.findAllEntities(intent.entities, 'action_verb');
+        var relation = builder.EntityRecognizer.findAllEntities(intent.entities, 'relation');
+        var name = builder.EntityRecognizer.findAllEntities(intent.entities, 'person_name');
+        var negation = builder.EntityRecognizer.findAllEntities(intent.entities, 'negation');
+		var s,f;
+		//pleasant_feeling
+		if (pfeel){
+		pfeel.forEach(function(f) {
+			f.resolution.values.forEach( function(s) { 
+		if(s=='alive'){
+          var botreplylist = ["item1,item2,..."];
                  botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
-                 builder.send.text(session, botreply);
-        }
+                 session.send("you are feeling alive");
+		}
+		else if(s=='good'){
+          var botreplylist = ["items"];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("you are feeling good");
+		}
+		else if(s=='happy'){
+          var botreplylist = ["items"];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("you are feeling happy");
+		}
+		else if(s=='interested'){
+          var botreplylist = ["items"];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("you are feeling interested");
+		}
+		else if(s=='love'){
+          var botreplylist = ["items"];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("you are feeling love");
+		}
+		else if(s=='open'){
+          var botreplylist = ["items"];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("you are feeling open");
+		}
+		else if(s=='positive'){
+          var botreplylist = ["items"];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("you are feeling positive");
+		}
+		else if(s=='strong'){
+          var botreplylist = ["items"];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("you are feeling strong");
+		}
+		});});}
+		//unpleasant_feeling
+		if (upfeel){
+		upfeel.forEach(function(f) {
+			f.resolution.values.forEach( function(s) { 
+		if(s=='afraid'){
+          var botreplylist = ["item1,item2,..."];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("you are feeling afraid");
+		}
+		else if(s=='angry'){
+          var botreplylist = ["items"];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("you are feeling angry");
+		}
+		else if(s=='confused'){
+          var botreplylist = ["items"];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("you are feeling confused");
+		}
+		else if(s=='sad'){
+          var botreplylist = ["items"];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("you are feeling sad");
+		}
+		else if(s=='depressed'){
+          var botreplylist = ["items"];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("you are feeling depressed");
+		}
+		else if(s=='helpless'){
+          var botreplylist = ["items"];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("you are feeling helpless");
+		}
+		else if(s=='hurt'){
+          var botreplylist = ["items"];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("you are feeling hurt");
+		}
+		else if(s=='indifferent'){
+          var botreplylist = ["items"];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("you are feeling indifferent");
+		}
+		else if(s=='sick'){
+          var botreplylist = ["items"];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("you are feeling sick");
+		}
+		});});}
+		//action is mentioned
+		if (action){
+		action.forEach(function(f) {
+			f.resolution.values.forEach( function(s) { 
+		if(s=='action_anger'){
+          var botreplylist = ["item1,item2,..."];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("action related to anger is shown");
+		}
+		else if(s=='action_chargedup'){
+          var botreplylist = ["items"];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("a high energy action is shown");
+		}
+		else if(s=='action_communicate'){
+          var botreplylist = ["items"];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("an action related to communication is shown");
+		}
+		else if(s=='action_fear'){
+          var botreplylist = ["items"];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("an action related to fear is shown");
+		}
+		else if(s=='action_greed'){
+          var botreplylist = ["items"];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("an action related to greed is shown");
+		}
+		else if(s=='action_horny'){
+          var botreplylist = ["items"];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("an action related to horny feelings is shown");
+		}
+		else if(s=='action_passive'){
+          var botreplylist = ["items"];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 //session.send("the action shown is general");
+		}
+		else if(s=='action_safe'){
+          var botreplylist = ["items"];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("a safe action is shown");
+		}
+		else if(s=='action_technical'){
+          var botreplylist = ["items"];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("a technical action is shown");
+		}
+		else if(s=='action_thinking_creative'){
+          var botreplylist = ["items"];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("creative thinking is shown");
+		}
+		else if(s=='action_thinking_critical'){
+          var botreplylist = ["items"];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("critical thinking is shown");
+		}
+		});});}
+		
+		//person_name
+		if (name){
+		name.forEach(function(f) {
+			f.resolution.values.forEach( function(s) { 
+		if(s=='name_girl_indian'){
+          var botreplylist = ["item1,item2,..."];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("you are sharing feelings related to a girl named "+f.entity);
+		}
+		else if(s=='name_man_indian'){
+          var botreplylist = ["items"];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("you are sharing feelings related to a man named "+f.entity);
+		}
+		
+		});});}
+		//relation mentioned
+		if (relation){
+		relation.forEach(function(f) {
+			f.resolution.values.forEach( function(s) { 
+          var botreplylist = ["item1,item2,..."];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 session.send("you are sharing feelings related to your "+s);
+		
+		});});}
+		
          else {
-            // Assuming turning on lights is the default
-             session.replaceDialog('happydialog');
-            // Put your code here for calling the IoT web service that turns on a device
-        }}
-    
+				//when nothing recognised but feelings shared
+		   }
+		
+		session.endDialog();
 }).triggerAction({
     matches: 'sharing_feeling'
 });
-
-bot.dialog('saddialog', [
-    function (session) {
-                
-                 var botreplylist = ["Oh dear, but why do you feel so?","what might be the reason for it?","ok, tell me about it","I cant see you in bad mood, please tell me why you feel so?"];
-                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
-                 builder.Prompts.text(session, botreply);
-    },
-    function (session, results) {
-                 session.send("Thanks for sharing this with me");   
-                  builder.Prompts.text(session, "Tell me more about it.");
-    },
-     function (session, results) {
-                 var botreplylist = ["Dont worry, it will get better","Have faith, you can deal with it"," Keep smiling and one day life will get tired of upsetting you"];
-                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
-                 session.send(botreply);
-     session.endDialog();
-    }
-]);
-
-bot.dialog('happydialog', [
-    function (session) {
-                
-                 var botreplylist = ["I am glad to hear that. What do you think could be the reason for this good mood?","That makes me feel good too, now tell me what all nice things are on your mind?","ok, so you're in good mood. Why?","Bravo, tell me the best thing on your mind."];
-                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
-                 builder.Prompts.text(session, botreply);
-    },
-    function (session, results) {
-                 session.send("Thanks for sharing this with me");   
-                  builder.Prompts.text(session, "Tell me more about it.");
-    },
-     function (session, results) {
-                 var botreplylist = ["ok, I want to let you know that your smile just brightens up my day","Well let us be grateful to people who make us happy, they are the charming gardeners who make our souls blossom.","Well my friend I think it's important to find the little things in everyday life that make you happy and you're doing a great job at that."]
-                                     botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
-                 session.send(botreply);
-     session.endDialog();
-    }
-]);
 
 
 bot.dialog('smalltalkdialog',
