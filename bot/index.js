@@ -37,24 +37,31 @@ var recognizer = new builder.LuisRecognizer(LuisModelUrl).onEnabled((context, ca
 });
 bot.recognizer(recognizer);
 
-bot.dialog('emotion', function (session, args) {
+bot.dialog('sharing_feeling', function (session, args) {
     var intent = args.intent;
-        var sad = builder.EntityRecognizer.findEntity(intent.entities, 'sad');
-        var happy = builder.EntityRecognizer.findEntity(intent.entities, 'happy');
+        var pfeel = builder.EntityRecognizer.findEntity(intent.entities, 'pleasant_feeling');
+        var upfeel = builder.EntityRecognizer.findEntity(intent.entities, 'unpleasant_feeling');
+        var action = builder.EntityRecognizer.findEntity(intent.entities, 'action_verb');
+        var relation = builder.EntityRecognizer.findEntity(intent.entities, 'relation');
+        var name = builder.EntityRecognizer.findEntity(intent.entities, 'person_name');
+        var negation = builder.EntityRecognizer.findEntity(intent.entities, 'negation');
 
         // Turn on a specific device if a device entity is detected by LUIS
-        if (sad) {
-           session.replaceDialog('saddialog');
-            
-            // Put your code here for calling the IoT web service that turns on a device
-        } else if(happy){
+        if (pfeel) {
+        foreach (var x in (pfeel.entity.Resolution.Values))
+        {if(x=='alive'){
+          var botreplylist = ["I am glad to hear that. What do you think could be the reason for this good mood?","That makes me feel good too, now tell me what all nice things are on your mind?","ok, so you're in good mood. Why?","Bravo, tell me the best thing on your mind."];
+                 botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
+                 builder.send.text(session, botreply);
+        }
+         else {
             // Assuming turning on lights is the default
              session.replaceDialog('happydialog');
             // Put your code here for calling the IoT web service that turns on a device
-        }
+        }}
     
 }).triggerAction({
-    matches: 'emotion'
+    matches: 'sharing_feeling'
 });
 
 bot.dialog('saddialog', [
