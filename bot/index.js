@@ -39,6 +39,8 @@ var recognizer = new builder.LuisRecognizer(LuisModelUrl).onEnabled((context, ca
 });
 bot.recognizer(recognizer);
 
+bot.set(`persistUserData`, false);
+
 bot.dialog('seeking_advice', function (session, args) {
 		analyze(session,args);		
 }).triggerAction({
@@ -329,7 +331,7 @@ function analyze(session,args){
                  botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
                  session.send("you are sharing feelings related to a man named "+f.entity);
 				 req[3]="."+f.entity;
-				 session.userData.Name = f.entity;
+				 session.userData.userName = f.entity;
 		}
 		
 		});});}
