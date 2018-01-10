@@ -39,7 +39,6 @@ var recognizer = new builder.LuisRecognizer(LuisModelUrl).onEnabled((context, ca
 });
 bot.recognizer(recognizer);
 
-bot.set(`persistUserData`, false);
 
 bot.dialog('seeking_advice', function (session, args) {
 		analyze(session,args);		
@@ -55,6 +54,7 @@ bot.dialog('venting', function (session, args) {
 });
 
 bot.dialog('talking', function (session, args) {
+		session.send("your name is "+session.userData.userName);
 		analyze(session,args);		
 }).triggerAction({
     matches: 'talking'
@@ -84,6 +84,18 @@ bot.dialog('smalltalkdialog',
 ).triggerAction({
     matches: 'smalltalk'
 });
+// Add first run dialog
+bot.dialog('firstRun', function (session) {    
+			
+	if(!session.userData.userName){
+	session.send("what is your name");}
+	else
+		session.send(session.userData.userName+", the last time we talked you were feeling "+session.userData.lastfeel);
+				
+	session.endDialog();				
+}).triggerAction({
+    matches: 'firstRun'
+});
 
 // Send welcome when conversation with bot is started, by initiating the root dialog
 bot.on('conversationUpdate', function (message) {
@@ -92,11 +104,10 @@ bot.on('conversationUpdate', function (message) {
             if (identity.id === message.address.bot.id) {
                 // bot.beginDialog(message.address, '/');
                 var msg = new builder.Message().address(message.address);
-                var botreplylist = ["Hello, how are you?","Hey, how are you feeling today?","Hi there, how are you?"];
-                botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
-                msg.text(botreply);
+                	msg.text("Hello");
                 msg.textLocale('en-US');
                 bot.send(msg);
+				bot.beginDialog(message.address,'firstRun')
             }
         });
     }
@@ -325,6 +336,10 @@ function analyze(session,args){
                  botreply = botreplylist[Math.floor(Math.random() * botreplylist.length)];
                  session.send("you are sharing feelings related to a girl named "+f.entity);
 				 req[3]="."+f.entity;
+				 if(session.userData.firstRun=="true1"){
+				 session.userData.userName = f.entity;
+				 session.save();
+				 session.userData.firstRun="true2";}
 		}
 		else if(s=='name_man_indian'){
           var botreplylist = ["items"];
@@ -332,6 +347,7 @@ function analyze(session,args){
                  session.send("you are sharing feelings related to a man named "+f.entity);
 				 req[3]="."+f.entity;
 				 session.userData.userName = f.entity;
+				 session.save();
 		}
 		
 		});});}
@@ -350,6 +366,7 @@ function analyze(session,args){
 				//when nothing recognised but feelings shared
 		   }
 session.send("find pattern is "+intent.intent+req[0]+req[1]+req[2]+req[4]);
+	if(req[0]+req[1])
 	session.userData.lastfeel = req[0]+req[1];
 		   	session.endDialog();
 		
