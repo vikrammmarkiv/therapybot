@@ -350,6 +350,7 @@ function analyze(session,args){
 				//when nothing recognised but feelings shared
 		   }
 session.send("find pattern is "+intent.intent+req[0]+req[1]+req[2]+req[4]);
+	session.userData.lastfeel = req[0]+req[1];
 		   	session.endDialog();
 		
 }
