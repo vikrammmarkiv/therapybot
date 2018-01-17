@@ -84,18 +84,6 @@ bot.dialog('smalltalkdialog',
 ).triggerAction({
     matches: 'smalltalk'
 });
-// Add first run dialog
-bot.dialog('firstRun', function (session) {    
-			
-	if(!session.userData.userName){
-	session.send("what is your name");}
-	else
-		session.send(session.userData.userName+", the last time we talked you were feeling "+session.userData.lastfeel);
-				
-	session.endDialog();				
-}).triggerAction({
-    matches: 'firstRun'
-});
 
 // Send welcome when conversation with bot is started, by initiating the root dialog
 bot.on('conversationUpdate', function (message) {
@@ -106,8 +94,7 @@ bot.on('conversationUpdate', function (message) {
                 var msg = new builder.Message().address(message.address);
                 	msg.text("Hello");
                 msg.textLocale('en-US');
-                bot.send(msg);
-				bot.beginDialog(message.address,'firstRun')
+                //bot.send(msg);
             }
         });
     }
