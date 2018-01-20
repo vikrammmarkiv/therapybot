@@ -5,7 +5,7 @@ var luisAppId = process.env.LuisAppId;
 var luisAPIKey = process.env.LuisAPIKey;
 var luisAPIHostName = process.env.LuisAPIHostName || 'westus.api.cognitive.microsoft.com';
 
-const LuisModelUrl = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/8082df28-effe-4356-9454-d4e56dc5f7e3?subscription-key=78fa3fd125c8480b9bac0c399bac923d';
+const LuisModelUrl = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/5070ec5a-3cb1-4812-97ce-3806f3c5dfc9?subscription-key=78fa3fd125c8480b9bac0c399bac923d';
 
 //=========================================================
 // Bot Setup
