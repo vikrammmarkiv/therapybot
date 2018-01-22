@@ -4,7 +4,9 @@ var responses = { // shift alt f
 		"i care about you and i can't see you sad. Let's talk about this and try to overcome it.",
 		"I'm so glad you're here, share with me.",
 		"If you want to talk about your feeling, I'll listen.",
-		"It's all right not to feel ok."
+		"It's all right not to feel ok.",
+		"Oh no!",
+		"Now that you are here, tell me everything about it."
     ],
 	 "sadness.deg1": [
         "Well, i want you to know that you are not alone in this. I'm always here for you.",
@@ -36,6 +38,20 @@ var responses = { // shift alt f
 	"anger.deg1": [
         "Don't let the darkness steal the beautiful person you have inside.",
 		
+    ],
+	"general.first": [
+        "and how do you feel about that?",
+		"I appreciate you shared this with me.",
+		"Is that a good thing or a bad thing?",
+		"I hope you are not keeping from me something, are you?",
+		"Oh i see...",
+		"You think so?",
+		"Really?",
+		"Uh-huh",
+		"Do you?",
+		"Is it so?",
+		"Well...",
+		"So..."
     ]
 }
 module.exports = responses;
