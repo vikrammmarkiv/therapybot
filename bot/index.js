@@ -38,7 +38,7 @@ var recognizer = new builder.LuisRecognizer(LuisModelUrl).onEnabled((context, ca
     callback(null, enabled);
 });
 bot.recognizer(recognizer);
-var flag=0;
+var flagsad=0,flaggen=0;
 
 bot.dialog('None', function (session, args) {
 		analyze(session,args);		
@@ -188,12 +188,8 @@ if(joy||trust||fear||surprise||sadness||disgust||anger||anticipation){
 				req[17]="."+"RESgeneral";
 		   }
 		   */
-		   
+		   if(intent.entities.length!=0){
 		   req[2]=intent.entities[intent.entities.length-1].type;
-		  
-		   
-		   
-		   
 		    if(flag==0){
 				req[18]=".first";
 				flag++;
@@ -206,6 +202,16 @@ if(joy||trust||fear||surprise||sadness||disgust||anger||anticipation){
 				req[18]=".deg2";
 				flag--;
 			}
+		   }
+		   else{
+			   req[2]="general";
+			   req[18]=".first";
+		   }
+		  
+		   
+		   
+		   
+		   
 		    var findpattern = /*req[0]+*/req[1]+req[2]+req[3]+req[4]+req[5]+req[6]+req[7]+req[8]+req[9]+req[10]+req[11]+req[12]+req[13]+req[14]+req[15]+req[16]+req[17]+req[18];
 			
 			var convoReplies = require('./convoreply');
