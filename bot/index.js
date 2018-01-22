@@ -188,10 +188,8 @@ if(joy||trust||fear||surprise||sadness||disgust||anger||anticipation){
 				req[17]="."+"RESgeneral";
 		   }
 		   */
-		   if(intent.entities.length!=0){
-			   if(intent.entities[intent.entities.length-1].type=="sadness")
+		   if(intent.entities.length!=0 && intent.entities[intent.entities.length-1].type=="sadness"){
 		   req[2]=intent.entities[intent.entities.length-1].type;
-			   else session.send("show sadness or nothing at all ");
 		    if(flag==0){
 				req[18]=".first";
 				flag++;
