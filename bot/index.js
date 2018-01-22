@@ -38,7 +38,7 @@ var recognizer = new builder.LuisRecognizer(LuisModelUrl).onEnabled((context, ca
     callback(null, enabled);
 });
 bot.recognizer(recognizer);
-var flagsad=0,flaggen=0;
+var flag=0;
 
 bot.dialog('None', function (session, args) {
 		analyze(session,args);		
