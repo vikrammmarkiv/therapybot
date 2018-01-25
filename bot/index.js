@@ -41,19 +41,39 @@ bot.recognizer(recognizer);
 var flag=0;
 
 bot.dialog('None', function (session, args) {
-		analyze(session,args);		
+		//analyze(session,args);
+	request({
+			    url: 'https://vikreplica.herokuapp.com/prediction',
+			    method: 'POST',
+			    body: {message: session.message.text},
+			    headers: {'User-Agent': 'request'},
+				json: true 
+			}, function(error, response, body) {
+				session.send(response.body)
+			})
+	 session.endDialog();
 }).triggerAction({
     matches: 'None'
 });
 bot.dialog('conversation', function (session, args) {
-		analyze(session,args);		
+		//analyze(session,args);	
+	request({
+			    url: 'https://vikreplica.herokuapp.com/prediction',
+			    method: 'POST',
+			    body: {message: session.message.text},
+			    headers: {'User-Agent': 'request'},
+				json: true 
+			}, function(error, response, body) {
+				session.send(response.body)
+			})	
+	 session.endDialog();
 }).triggerAction({
     matches: 'conversation'
 });
 
 
 bot.dialog('smalltalkdialog',
-    (session, args) => {
+    (session, args) => {/*
         // Post user's question to QnA smalltalk kb
       qnaClient.post({ question: session.message.text }, function (err, res) {
             if (err) {
@@ -69,7 +89,16 @@ bot.dialog('smalltalkdialog',
                 // Put whatever default message/attachments you want here
                 session.send('Hmm, I didn\'t quite understand you there. Care to rephrase?')
             }
-        });
+        });*/
+	request({
+			    url: 'https://vikreplica.herokuapp.com/prediction',
+			    method: 'POST',
+			    body: {message: session.message.text},
+			    headers: {'User-Agent': 'request'},
+				json: true 
+			}, function(error, response, body) {
+				session.send(response.body)
+			})	
         session.endDialog();
     }
 ).triggerAction({
