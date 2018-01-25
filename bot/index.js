@@ -3,6 +3,7 @@ var QnAClient = require('../lib/client');
 var azure = require('botbuilder-azure');
 var luisAppId = process.env.LuisAppId;
 var luisAPIKey = process.env.LuisAPIKey;
+const request = require('request');
 var luisAPIHostName = process.env.LuisAPIHostName || 'westus.api.cognitive.microsoft.com';
 
 const LuisModelUrl = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/5070ec5a-3cb1-4812-97ce-3806f3c5dfc9?subscription-key=78fa3fd125c8480b9bac0c399bac923d';
