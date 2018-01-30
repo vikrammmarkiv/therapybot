@@ -121,18 +121,13 @@ bot.on('conversationUpdate', function (message) {
             if (identity.id === message.address.bot.id) {
                 // bot.beginDialog(message.address, '/');
                 var msg = new builder.Message().address(message.address);
-            
+                	msg.text("Hello");
                 msg.textLocale('en-US');
-				qnaClient.post({ question: "Hello" }, function (err, res) {
-            if (res) {
-                msg.text(res);			
-				bot.send(msg);
+				
+                //bot.send(msg);
             }
-		            });
+        });
     }
-});
-
-	}
 });
 
 
