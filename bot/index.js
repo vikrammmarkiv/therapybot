@@ -1,9 +1,10 @@
 var builder = require('botbuilder');
 var QnAClient = require('../lib/client');
+var elizab = require('../eliza/elizabot');
 var azure = require('botbuilder-azure');
 var luisAppId = process.env.LuisAppId;
+const request = require('request')
 var luisAPIKey = process.env.LuisAPIKey;
-const request = require('request');
 var luisAPIHostName = process.env.LuisAPIHostName || 'westus.api.cognitive.microsoft.com';
 
 const LuisModelUrl = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/5070ec5a-3cb1-4812-97ce-3806f3c5dfc9?subscription-key=78fa3fd125c8480b9bac0c399bac923d';
@@ -33,7 +34,7 @@ var azureTableClient = new azure.AzureTableClient("testuser", "therapybot", "T8d
 var tableStorage = new azure.AzureBotStorage({ gzipData: false }, azureTableClient);
 
 var bot = new builder.UniversalBot(connector).set('storage', tableStorage); // Register storage;
-
+var eliza = new elizab.ElizaBot();
 var recognizer = new builder.LuisRecognizer(LuisModelUrl).onEnabled((context, callback) => {
     var enabled = context.dialogStack().length === 0;
     callback(null, enabled);
@@ -42,23 +43,7 @@ bot.recognizer(recognizer);
 var flag=0;
 
 bot.dialog('None', function (session, args) {
-		//analyze(session,args);
-	request({
-			    url: 'https://vikreplica.herokuapp.com/prediction',
-			    method: 'POST',
-			    body: {message: session.message.text},
-			    headers: {'User-Agent': 'request'},
-				json: true 
-			}, function(error, response, body) {
-				session.send(response.body)
-			})
-	 session.endDialog();
-}).triggerAction({
-    matches: 'None'
-});
-bot.dialog('conversation', function (session, args) {
-		//analyze(session,args);	
-	request({
+		request({
 			    url: 'https://vikreplica.herokuapp.com/prediction',
 			    method: 'POST',
 			    body: {message: session.message.text},
@@ -67,7 +52,24 @@ bot.dialog('conversation', function (session, args) {
 			}, function(error, response, body) {
 				session.send(response.body)
 			})	
-	 session.endDialog();
+}).triggerAction({
+    matches: 'None'
+});
+bot.dialog('conversation', function (session, args) {
+		//analyze(session,args);	
+/*
+		request({
+			    url: 'https://vikreplica.herokuapp.com/prediction',
+			    method: 'POST',
+			    body: {message: text.substring(0, 200)},
+			    headers: {'User-Agent': 'request'},
+				json: true 
+			}, function(error, response, body) {
+				session.send(response.body)
+			})*/
+			
+			var rpl =eliza.transform(session.message.text);
+		session.send(rpl)
 }).triggerAction({
     matches: 'conversation'
 });
@@ -91,6 +93,7 @@ bot.dialog('smalltalkdialog',
                 session.send('Hmm, I didn\'t quite understand you there. Care to rephrase?')
             }
         });
+        session.endDialog();
     }
 ).triggerAction({
     matches: 'smalltalk'
@@ -118,12 +121,18 @@ bot.on('conversationUpdate', function (message) {
             if (identity.id === message.address.bot.id) {
                 // bot.beginDialog(message.address, '/');
                 var msg = new builder.Message().address(message.address);
-                	msg.text("Hello");
+            
                 msg.textLocale('en-US');
-                //bot.send(msg);
+				qnaClient.post({ question: "Hello" }, function (err, res) {
+            if (res) {
+                msg.text(res);			
+				bot.send(msg);
             }
-        });
+		            });
     }
+});
+
+	}
 });
 
 
@@ -208,7 +217,7 @@ if(joy||trust||fear||surprise||sadness||disgust||anger||anticipation){
 				req[17]="."+"RESgeneral";
 		   }
 		   */
-		   if(intent.entities.length!=0 && intent.entities[intent.entities.length-1].type=="sadness"){
+		   if(intent.entities.length!=0){
 		   req[2]=intent.entities[intent.entities.length-1].type;
 		    if(flag==0){
 				req[18]=".first";
