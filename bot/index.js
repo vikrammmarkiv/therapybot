@@ -72,10 +72,18 @@ bot.dialog('smalltalkdialog',
 });
 
 // Add first run dialog
-bot.dialog('firstRun', function (session) {    
+bot.dialog('firstRun', [function (session) {    
     session.userData.firstRun = true;
-    session.send("Welcome to Therapy Bot!").endDialog();
-}).triggerAction({
+	builder.Prompts.text(session, 'Welcome to Therapy Bot! What is your name?');
+    },
+    // Step 2
+    function (session, results) {
+			session.userData['UserName'] = results.response;   
+			session.send("saved");
+			session.endDialog(`Hello ${session.userData['UserName']}!`);
+    
+    }]
+	).triggerAction({
     onFindAction: function (context, callback) {
         // Only trigger if we've never seen user before
         if (!context.userData.firstRun) {
@@ -86,6 +94,16 @@ bot.dialog('firstRun', function (session) {
         }
     }
 });
+
+
+bot.on('conversationUpdate', function (message) {
+	 if (message.membersAdded) {
+        message.membersAdded.forEach(function (identity) {
+             if (identity.id === message.address.bot.id) {
+                 bot.beginDialog(message.address, 'firstRun');
+}});
+}}
+);
 
 
 // Connector listener wrapper to capture site url
