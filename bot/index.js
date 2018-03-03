@@ -74,7 +74,7 @@ bot.dialog('smalltalkdialog',
 // Add first run dialog
 bot.dialog('firstRun', [function (session) {    
     session.userData.firstRun = true;
-	builder.Prompts.text(session, 'Welcome to Therapy Bot! What is your name?');
+	builder.Prompts.text(session, 'Welcome to Therapy Bot!');
     },
     // Step 2
     function (session, results) {
