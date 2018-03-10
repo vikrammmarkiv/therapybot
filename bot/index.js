@@ -40,7 +40,7 @@ bot.dialog('None', function (session, args) {
 });
 bot.dialog('conversation', function (session, args) {
 			var rpl =eliza.transform(session.message.text);
-			session.send("eliza: "+rpl);
+			session.send(rpl);
 			session.endDialog();
 }).triggerAction({
     matches: 'conversation'
@@ -59,7 +59,7 @@ bot.dialog('smalltalkdialog',
 
             if (res) {
                 // Send reply from QnA back to user
-                session.send("smalltalk: "+res);
+                session.send(res);
             } else {
                 // Put whatever default message/attachments you want here
                 session.send('Hmm, I didn\'t quite understand you there. Care to rephrase?');
