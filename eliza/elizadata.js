@@ -94,14 +94,14 @@ var elizaKeywords = [
      "Please go on.",
      "What does that suggest to you ?",
      "Do you feel strongly about discussing such things ?",
-     //"That is interesting.  Please continue.",
+     "That is interesting.  Please continue.",
      "Tell me more about that.",
      "Does talking about this bother you ?"
   ]]
 ]],
 ["sorry", 0, [
  ["*", [
-     "Please don't apologize.",
+     "Please don't apologise.",
      "Apologies are not necessary.",
      "I've told you that apologies are not required.",
      "It did not bother me.  Please continue."
@@ -159,7 +159,7 @@ var elizaKeywords = [
      "Do you think it's likely that (2) ?",
      "Do you wish that (2) ?",
      "What do you know about (2) ?",
-     //"Really, if (2) ?",
+     "Really, if (2) ?",
      "What would you do if (2) ?",
      "But what are the chances that (2) ?",
      "What does this speculation lead to ?"
@@ -167,7 +167,7 @@ var elizaKeywords = [
 ]],
 ["dreamed", 4, [
  ["* i dreamed *", [
-     //"Really, (2) ?",
+     "Really, (2) ?",
      "Have you ever fantasized (2) while you were awake ?",
      "Have you ever dreamed (2) before ?",
      "goto dream"
@@ -449,11 +449,10 @@ var elizaKeywords = [
      "What else comes to your mind when you think of your (3) ?"
   ]],
  ["* my *", [
-     //"Your (2) ?",
+     "Your (2) ?",
      "Why do you say your (2) ?",
      "Does that suggest anything else which belongs to you ?",
      "Is it important to you that your (2) ?"
-	 
   ]]
 ]],
 ["can", 0, [
@@ -466,14 +465,14 @@ var elizaKeywords = [
  ["* can i *", [
      "Whether or not you can (2) depends on you more than on me.",
      "Do you want to be able to (2) ?",
-    // "Perhaps you don't want to (2).",
+     "Perhaps you don't want to (2).",
      "goto what"
   ]]
 ]],
 ["what", 0, [
  ["*", [
-     //"Why do you ask ?",
-    // "Does that question interest you ?",
+     "Why do you ask ?",
+     "Does that question interest you ?",
      "What is it you really want to know ?",
      "Are such questions much on your mind ?",
      "What answer would please you most ?",
@@ -532,8 +531,8 @@ var elizaKeywords = [
 ]],
 ["everyone", 2, [
  ["* @everyone *", [
-     //"Really, (2) ?",
-     //"Surely not (2).",
+     "Really, (2) ?",
+     "Surely not (2).",
      "Can you think of anyone in particular ?",
      "Who, for example?",
      "Are you thinking of a very special person ?",
@@ -563,16 +562,16 @@ var elizaKeywords = [
      "Can you think of a specific example ?",
      "When ?",
      "What incident are you thinking of ?",
-     //"Really, always ?"
-	 ]]
+     "Really, always ?"
+  ]]
 ]],
 ["alike", 10, [
  ["*", [
      "In what way ?",
-     "What resemblance do you see ?",
+     "What resemblence do you see ?",
      "What does that similarity suggest to you ?",
      "What other connections do you see ?",
-     "What do you suppose that resemblance means ?",
+     "What do you suppose that resemblence means ?",
      "What is the connection, do you suppose ?",
      "Could there really be some connection ?",
      "How ?"
