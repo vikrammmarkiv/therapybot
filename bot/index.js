@@ -35,6 +35,7 @@ var eliza = new elizab.ElizaBot();
 
 bot.dialog('None', function (session, args) {
 		session.send('Hmm, I didn\'t quite understand you there. Care to rephrase?');
+		session.endDialog();
 }).triggerAction({
     matches: 'None'
 });
